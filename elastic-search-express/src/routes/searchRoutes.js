@@ -38,12 +38,17 @@ router.get('/search', async (req, res) => {
             query: query,
             fields: ['title', 'description'],
             fuzziness: 'AUTO',
+            operator: 'or',
+            type: 'best_fields',
           },
         },
       },
     });
 
-    console.log('Full Elasticsearch response:', JSON.stringify(response, null, 2));
+    console.log(
+      'Full Elasticsearch response:',
+      JSON.stringify(response, null, 2)
+    );
 
     const results = response.hits.hits.map((hit) => hit._source);
 
@@ -92,13 +97,30 @@ router.get('/reindex', async (req, res) => {
       await esClient.indices.create({
         index: 'products',
         body: {
+          settings: {
+            analysis: {
+              analyzer: {
+                custom_analyzer: {
+                  type: 'custom',
+                  tokenizer: 'standard',
+                  filter: ['lowercase', 'snowball'],
+                },
+              },
+            },
+          },
           mappings: {
             properties: {
-              title: { type: 'text' },
-              description: { type: 'text' },
+              title: {
+                type: 'text',
+                analyzer: 'custom_analyzer',
+              },
+              description: {
+                type: 'text',
+                analyzer: 'custom_analyzer',
+              },
               price: { type: 'float' },
               rating: { type: 'float' },
-              image: { type: 'text' },
+              image: { type: 'keyword' },
             },
           },
         },

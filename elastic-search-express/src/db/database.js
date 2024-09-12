@@ -169,6 +169,27 @@ const db = new sqlite3.Database(dbPath, (err) => {
               rating: 4.7,
               image: 'https://picsum.photos/300/200?random=20',
             },
+            {
+              title: 'Smart Door Lock',
+              description: 'Keyless entry smart lock with fingerprint recognition',
+              price: 199.99,
+              rating: 4.6,
+              image: 'https://picsum.photos/300/200?random=98',
+            },
+            {
+              title: 'Wireless Earbuds',
+              description: 'True wireless earbuds with noise isolation',
+              price: 129.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=99',
+            },
+            {
+              title: 'Smart Scale',
+              description: 'Wi-Fi connected scale with body composition analysis',
+              price: 69.99,
+              rating: 4.4,
+              image: 'https://picsum.photos/300/200?random=100',
+            },
           ];
 
           products.forEach((product) => {
