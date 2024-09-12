@@ -178,7 +178,15 @@ const App = () => {
         </Box>
 
         {/* Products Display Section Side by Side */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '16px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginBottom: '16px',
+            height: '100%',
+          }}
+        >
           {/* Non-Elasticsearch Response */}
           <div style={{ flex: 1, marginRight: '8px' }}>
             <Typography variant="h6" align="center" sx={{ mb: 1 }}>
@@ -190,9 +198,18 @@ const App = () => {
               </Typography>
             )}
             {nonElasticProducts.length > 0 ? (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '16px',
+                  justifyContent: 'center',
+                }}
+              >
                 {nonElasticProducts.map((product) => (
-                  <div key={product.id} style={{ width: 'calc(50% - 16px)' }}> {/* 2 columns */}
+                  <div key={product.id} style={{ width: 'calc(50% - 16px)' }}>
+                    {' '}
+                    {/* 2 columns */}
                     <ProductCard {...product} />
                   </div>
                 ))}
@@ -218,9 +235,18 @@ const App = () => {
               </Typography>
             )}
             {elasticProducts.length > 0 ? (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '16px',
+                  justifyContent: 'center',
+                }}
+              >
                 {elasticProducts.map((product) => (
-                  <div key={product.id} style={{ width: 'calc(50% - 16px)' }}> {/* 2 columns */}
+                  <div key={product.id} style={{ width: 'calc(50% - 16px)' }}>
+                    {' '}
+                    {/* 2 columns */}
                     <ProductCard {...product} />
                   </div>
                 ))}

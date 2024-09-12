@@ -1,4 +1,4 @@
-// src/components/ProductCard.jsx
+import PropTypes from 'prop-types';  // Import PropTypes
 import {
   Card,
   CardContent,
@@ -10,15 +10,18 @@ import {
 
 const ProductCard = ({ title, description, price, rating, image }) => {
   return (
-    <Card sx={{ width: 250, marginBottom: 2 }}>
+    <Card sx={{ width: 250, height: 350, marginBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <CardMedia component="img" height="140" image={image} alt={title} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {description}
-        </Typography>
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        </div>
+        {/* Price and Rating Box - always at the bottom */}
         <Box
           display="flex"
           justifyContent="space-between"
@@ -33,6 +36,15 @@ const ProductCard = ({ title, description, price, rating, image }) => {
       </CardContent>
     </Card>
   );
+};
+
+// Define PropTypes for the component
+ProductCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default ProductCard;
