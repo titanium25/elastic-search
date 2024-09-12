@@ -190,6 +190,195 @@ const db = new sqlite3.Database(dbPath, (err) => {
               rating: 4.4,
               image: 'https://picsum.photos/300/200?random=100',
             },
+            {
+              title: 'Gaming Mouse',
+              description: 'High-precision gaming mouse with customizable RGB lighting',
+              price: 59.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=24'
+            },
+            {
+              title: 'Portable Charger',
+              description: '20000mAh power bank with fast charging capability',
+              price: 39.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=25'
+            },
+            {
+              title: 'Bluetooth Keyboard',
+              description: 'Slim wireless keyboard compatible with multiple devices',
+              price: 49.99,
+              rating: 4.3,
+              image: 'https://picsum.photos/300/200?random=26'
+            },
+            {
+              title: 'Fitness Tracker',
+              description: 'Water-resistant fitness band with heart rate monitoring',
+              price: 79.99,
+              rating: 4.4,
+              image: 'https://picsum.photos/300/200?random=27'
+            },
+            {
+              title: 'Robot Vacuum',
+              description: 'Smart robot vacuum with mapping and app control',
+              price: 249.99,
+              rating: 4.6,
+              image: 'https://picsum.photos/300/200?random=28'
+            },
+            {
+              title: 'Blender',
+              description: 'High-speed blender for smoothies and food processing',
+              price: 89.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=29'
+            },
+            {
+              title: 'Electric Toothbrush',
+              description: 'Rechargeable electric toothbrush with multiple cleaning modes',
+              price: 59.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=30'
+            },
+            {
+              title: 'Smart Thermostat',
+              description: 'WiFi-enabled thermostat for energy-efficient home climate control',
+              price: 149.99,
+              rating: 4.8,
+              image: 'https://picsum.photos/300/200?random=31'
+            },
+            {
+              title: 'Electric Scooter',
+              description: 'Foldable electric scooter with 15-mile range',
+              price: 299.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=32'
+            },
+            {
+              title: 'Wireless Charging Pad',
+              description: 'Qi-compatible wireless charging pad for smartphones',
+              price: 29.99,
+              rating: 4.2,
+              image: 'https://picsum.photos/300/200?random=33'
+            },
+            {
+              title: 'Smart Light Bulbs',
+              description: 'Color-changing smart LED bulbs with voice control',
+              price: 39.99,
+              rating: 4.6,
+              image: 'https://picsum.photos/300/200?random=34'
+            },
+            {
+              title: 'Portable Projector',
+              description: 'Mini projector with built-in speakers for home entertainment',
+              price: 199.99,
+              rating: 4.3,
+              image: 'https://picsum.photos/300/200?random=35'
+            },
+            {
+              title: 'Digital Drawing Tablet',
+              description: 'Graphics tablet for digital art and photo editing',
+              price: 79.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=36'
+            },
+            {
+              title: 'Noise-Cancelling Headphones',
+              description: 'Over-ear headphones with active noise cancellation',
+              price: 249.99,
+              rating: 4.8,
+              image: 'https://picsum.photos/300/200?random=37'
+            },
+            {
+              title: 'Smart Door Bell',
+              description: 'Video doorbell with two-way audio and motion detection',
+              price: 149.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=38'
+            },
+            {
+              title: 'Portable SSD',
+              description: '1TB external SSD with USB-C connectivity',
+              price: 159.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=39'
+            },
+            {
+              title: 'Ergonomic Office Chair',
+              description: 'Adjustable office chair with lumbar support',
+              price: 199.99,
+              rating: 4.6,
+              image: 'https://picsum.photos/300/200?random=40'
+            },
+            {
+              title: 'Smart Coffee Maker',
+              description: 'Programmable coffee maker with smartphone control',
+              price: 129.99,
+              rating: 4.4,
+              image: 'https://picsum.photos/300/200?random=41'
+            },
+            {
+              title: 'Wireless Presenter',
+              description: 'Laser pointer and wireless presenter for presentations',
+              price: 29.99,
+              rating: 4.3,
+              image: 'https://picsum.photos/300/200?random=42'
+            },
+            {
+              title: 'Instant Pot',
+              description: 'Multi-functional electric pressure cooker',
+              price: 89.99,
+              rating: 4.8,
+              image: 'https://picsum.photos/300/200?random=43'
+            },
+            {
+              title: 'Drone with Camera',
+              description: '4K camera drone with GPS and follow-me mode',
+              price: 399.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=44'
+            },
+            {
+              title: 'Smart Home Security Camera',
+              description: 'Indoor WiFi camera with night vision and two-way audio',
+              price: 59.99,
+              rating: 4.5,
+              image: 'https://picsum.photos/300/200?random=45'
+            },
+            {
+              title: 'Electric Shaver',
+              description: 'Rechargeable electric shaver with precision trimmer',
+              price: 79.99,
+              rating: 4.4,
+              image: 'https://picsum.photos/300/200?random=46'
+            },
+            {
+              title: 'Portable Bluetooth Speaker',
+              description: 'Waterproof Bluetooth speaker with 20-hour battery life',
+              price: 69.99,
+              rating: 4.6,
+              image: 'https://picsum.photos/300/200?random=47'
+            },
+            {
+              title: 'Smart Plant Sensor',
+              description: 'WiFi-enabled plant sensor for monitoring soil moisture and sunlight',
+              price: 39.99,
+              rating: 4.2,
+              image: 'https://picsum.photos/300/200?random=48'
+            },
+            {
+              title: 'Electric Standing Desk',
+              description: 'Adjustable height standing desk with electric motor',
+              price: 349.99,
+              rating: 4.7,
+              image: 'https://picsum.photos/300/200?random=49'
+            },
+            {
+              title: 'Smart Smoke Detector',
+              description: 'WiFi-connected smoke and carbon monoxide detector',
+              price: 119.99,
+              rating: 4.8,
+              image: 'https://picsum.photos/300/200?random=50'
+            },
           ];
 
           products.forEach((product) => {

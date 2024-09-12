@@ -1,0 +1,14 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "scripts": {
+    "start:frontend": "cd elastic-search-react && npm run dev",
+    "start:express": "cd elastic-search-express && npm run dev",
+    "start:express-es": "cd elastic-search-express_es && PORT=3003 npm run dev",
+    "start:all": "./start-all.sh",
+    "install:all": "npm install && concurrently \"cd elastic-search-react && npm install\" \"cd elastic-search-express && npm install\" \"cd elastic-search-express_es && npm install\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
+}

@@ -7,11 +7,23 @@ const esClient = new Client({ node: process.env.ELASTICSEARCH_URL || 'http://loc
 
 async function initializeElasticsearch() {
   try {
+    console.log('Attempting to connect to Elasticsearch...');
+    const health = await esClient.cluster.health();
+    console.log('Elasticsearch health:', health);
+
     const indexExists = await esClient.indices.exists({ index: 'products' });
-    if (!indexExists.body) {
+    if (!indexExists) {
+      console.log('Creating products index...');
       await createProductIndex();
+      console.log('Products index created successfully');
+    } else {
+      console.log('Products index already exists');
     }
+
+    console.log('Reindexing products...');
     await reindexProducts();
+    console.log('Products reindexed successfully');
+
     console.log('Elasticsearch initialized successfully');
   } catch (error) {
     console.error('Failed to initialize Elasticsearch:', error);
@@ -19,39 +31,32 @@ async function initializeElasticsearch() {
 }
 
 async function createProductIndex() {
-  try {
-    await esClient.indices.create({
-      index: 'products',
-      body: {
-        settings: {
-          analysis: {
-            analyzer: {
-              custom_analyzer: {
-                type: 'custom',
-                tokenizer: 'standard',
-                filter: ['lowercase', 'snowball'],
-              },
+  await esClient.indices.create({
+    index: 'products',
+    body: {
+      settings: {
+        analysis: {
+          analyzer: {
+            custom_analyzer: {
+              type: 'custom',
+              tokenizer: 'standard',
+              filter: ['lowercase', 'snowball'],
             },
           },
         },
-        mappings: {
-          properties: {
-            title: { type: 'text', analyzer: 'custom_analyzer' },
-            description: { type: 'text', analyzer: 'custom_analyzer' },
-            price: { type: 'float' },
-            rating: { type: 'float' },
-            image: { type: 'keyword' },
-          },
+      },
+      mappings: {
+        properties: {
+          id: { type: 'integer' },
+          title: { type: 'text', analyzer: 'custom_analyzer' },
+          description: { type: 'text', analyzer: 'custom_analyzer' },
+          price: { type: 'float' },
+          rating: { type: 'float' },
+          image: { type: 'keyword' },
         },
       },
-    });
-  } catch (error) {
-    if (error.meta && error.meta.body && error.meta.body.error.type === 'resource_already_exists_exception') {
-      console.log('Index already exists, skipping creation');
-    } else {
-      throw error;
-    }
-  }
+    },
+  });
 }
 
 // Function to reindex products
@@ -64,9 +69,20 @@ async function reindexProducts() {
         return;
       }
 
+      // Delete existing index
+      try {
+        await esClient.indices.delete({ index: 'products' });
+      } catch (error) {
+        console.log('Index does not exist, creating a new one');
+      }
+
+      // Recreate the index
+      await createProductIndex();
+
       const body = rows.flatMap((product) => [
-        { index: { _index: 'products', _id: product.id } },
+        { index: { _index: 'products', _id: product.id.toString() } },
         {
+          id: product.id,
           title: product.title,
           description: product.description,
           price: product.price,
@@ -113,6 +129,17 @@ router.get('/es-health', async (req, res) => {
   }
 });
 
+router.get('/check-sqlite', (req, res) => {
+  const sql = 'SELECT * FROM products';
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: 'Failed to retrieve products from SQLite' });
+      return;
+    }
+    res.json(rows);
+  });
+});
+
 router.get('/search', async (req, res) => {
   const { query } = req.query;
 
@@ -121,6 +148,7 @@ router.get('/search', async (req, res) => {
   }
 
   try {
+    console.log('Searching for:', query);
     const response = await esClient.search({
       index: 'products',
       body: {
@@ -133,10 +161,27 @@ router.get('/search', async (req, res) => {
             type: 'best_fields',
           },
         },
+        sort: [
+          {
+            rating: {
+              order: "desc"
+            }
+          }
+        ]
       },
     });
 
-    const results = response.body.hits.hits.map((hit) => hit._source);
+    console.log('Elasticsearch response:', JSON.stringify(response, null, 2));
+
+    if (!response || !response.hits || !response.hits.hits) {
+      console.error('Unexpected Elasticsearch response structure:', response);
+      return res.status(500).json({ error: 'Unexpected search result structure' });
+    }
+
+    const results = response.hits.hits.map((hit) => ({
+      id: hit._source.id,
+      ...hit._source
+    }));
     res.json(results);
   } catch (error) {
     console.error('Search error:', error);
