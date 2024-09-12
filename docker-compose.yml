@@ -10,9 +10,9 @@ services:
       - '3001:3001'
     volumes:
       - ./elastic-search-express:/app
-      - /app/node_modules
     depends_on:
       - db
+      - elasticsearch
 
   frontend:
     build:
@@ -23,7 +23,6 @@ services:
       - '5173:5173'
     volumes:
       - ./elastic-search-react:/app
-      - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
@@ -34,4 +33,18 @@ services:
     container_name: sqlite-db
     volumes:
       - ./elastic-search-express/src/db:/db
-    command: tail -f /dev/null  # Keep the container running
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  esdata:
