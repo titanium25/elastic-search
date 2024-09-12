@@ -1,5 +1,5 @@
 # Use Node.js LTS version as the base image
-FROM node:20
+FROM node:18
 
 # Set the working directory in the container
 WORKDIR /app
@@ -19,8 +19,12 @@ RUN npm rebuild sqlite3 --build-from-source
 # Copy the rest of the application code to the working directory
 COPY . .
 
+# Install wait-for-it
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
 # Expose the port the app runs on
 EXPOSE 3001
 
 # Start the application
-CMD ["node", "src/server.js"]
+CMD ["sh", "-c", "wait-for-it elasticsearch:9200 -t 60 -- node src/server.js"]

@@ -18,13 +18,13 @@ services:
 
   backend_es:
     build:
-      context: ./elastic-search-express
+      context: ./elastic-search-express_es
       dockerfile: Dockerfile
     container_name: elastic-search-express-es
     ports:
       - '3003:3001'
     volumes:
-      - ./elastic-search-express:/app
+      - ./elastic-search-express_es:/app
       - /app/node_modules
     depends_on:
       - db
@@ -66,6 +66,11 @@ services:
       - "9200:9200"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   esdata:

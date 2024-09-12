@@ -2,24 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
-const { Client } = require('@elastic/elasticsearch');
 
-// Initialize Elasticsearch client
-const esClient = new Client({ node: 'http://localhost:9200' });
 
-//
-router.get('/es-health', async (req, res) => {
-  try {
-    const health = await esClient.cluster.health();
-    res.json(health);
-  } catch (error) {
-    console.error('Elasticsearch health check failed:', error);
-    res.status(500).json({
-      error: 'Elasticsearch health check failed',
-      details: error.message,
-    });
-  }
-});
 
 // Endpoint to search products in Elasticsearch
 router.get('/search', async (req, res) => {
