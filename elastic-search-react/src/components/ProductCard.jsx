@@ -10,7 +10,7 @@ import {
 
 const ProductCard = ({ title, description, price, rating, image }) => {
   return (
-    <Card sx={{ width: 300, marginBottom: 2 }}>
+    <Card sx={{ width: 250, marginBottom: 2 }}>
       <CardMedia component="img" height="140" image={image} alt={title} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

@@ -36,11 +36,23 @@ async function createProductIndex() {
     body: {
       settings: {
         analysis: {
+          filter: {
+            synonym_filter: {
+              type: 'synonym',
+              synonyms: [
+                "mp, MP, mega pixels, megapixels, mega pixel, megapixel"  // All synonyms grouped together
+              ]
+            },
+            snowball_filter: {
+              type: 'snowball',
+              language: 'English'
+            }
+          },
           analyzer: {
             custom_analyzer: {
               type: 'custom',
               tokenizer: 'standard',
-              filter: ['lowercase', 'snowball'],
+              filter: ['lowercase', 'synonym_filter', 'snowball_filter'],  // Include synonym filter
             },
           },
         },
@@ -58,6 +70,7 @@ async function createProductIndex() {
     },
   });
 }
+
 
 // Function to reindex products
 async function reindexProducts() {
