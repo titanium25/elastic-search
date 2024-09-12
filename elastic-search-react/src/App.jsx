@@ -1,20 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Container, TextField, Grid, Box, Button } from '@mui/material';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Container, TextField, Grid, Box, Button, Switch, FormControlLabel } from '@mui/material';
 import ProductCard from './components/ProductCard';
 import axios from 'axios';
-import { debounce } from 'lodash'; // Import lodash debounce
+import { debounce } from 'lodash';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
+  const [useElasticsearch, setUseElasticsearch] = useState(false);
 
-  // Debounced fetch function
+  const apiUrl = useElasticsearch 
+    ? 'http://localhost:3002/api/search'  // Elasticsearch backend
+    : 'http://localhost:3001/api/search'; // Non-Elasticsearch backend
+
   const fetchProducts = useCallback(
     debounce((query) => {
       if (query.trim() !== '') {
-        // Only fetch if there is a search term
         axios
-          .get('http://localhost:3001/api/search', { params: { query } }) // Send query as parameter
+          .get(apiUrl, { params: { query } })
           .then((response) => {
             setProducts(response.data);
           })
@@ -22,61 +25,50 @@ const App = () => {
             console.error('Error fetching products:', error);
           });
       } else {
-        setProducts([]); // Clear products if the search term is empty
+        setProducts([]);
       }
-    }, 1000), // 1-second debounce
-    []
+    }, 300),
+    [apiUrl]
   );
 
   useEffect(() => {
-    fetchProducts(searchTerm); // Fetch products whenever searchTerm changes
+    fetchProducts(searchTerm);
   }, [searchTerm, fetchProducts]);
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value); // Set search term, debounced fetch will trigger
+    setSearchTerm(e.target.value);
   };
 
   const handleReset = () => {
     setSearchTerm('');
-    setProducts([]); // Clear products on reset
+    setProducts([]);
+  };
+
+  const handleToggleElasticsearch = () => {
+    setUseElasticsearch(!useElasticsearch);
   };
 
   return (
     <Container>
-      <Box
-        p={2}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Search Field and Reset Button Inline */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: 600,
-            mb: 4,
-          }}
-        >
+      <Box p={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
+        <FormControlLabel
+          control={<Switch checked={useElasticsearch} onChange={handleToggleElasticsearch} />}
+          label={useElasticsearch ? "Using Elasticsearch" : "Using Standard Search"}
+        />
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 600, mb: 4 }}>
           <TextField
             label="Search"
             variant="outlined"
             fullWidth
             sx={{ mr: 2 }}
             value={searchTerm}
-            onChange={handleSearchChange} // Updated to use handleSearchChange
+            onChange={handleSearchChange}
           />
           <Button variant="outlined" onClick={handleReset}>
             Reset
           </Button>
         </Box>
 
-        {/* Product Grid - Only render if products are available */}
         {products.length > 0 && (
           <Grid container spacing={2} justifyContent="center">
             {products.map((product, index) => (
