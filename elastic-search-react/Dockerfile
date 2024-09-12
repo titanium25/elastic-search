@@ -1,5 +1,5 @@
 # Use Node.js LTS version as the base image
-FROM node:18
+FROM node:20
 
 # Set the working directory in the container
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5173
 
 # Start the application
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

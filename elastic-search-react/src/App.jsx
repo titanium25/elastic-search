@@ -1,5 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Container, TextField, Grid, Box, Button, Switch, FormControlLabel } from '@mui/material';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  Container,
+  TextField,
+  Grid,
+  Box,
+  Button,
+  Switch,
+  FormControlLabel,
+} from '@mui/material';
 import ProductCard from './components/ProductCard';
 import axios from 'axios';
 import { debounce } from 'lodash';
@@ -9,8 +17,8 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [useElasticsearch, setUseElasticsearch] = useState(false);
 
-  const apiUrl = useElasticsearch 
-    ? 'http://localhost:3002/api/search'  // Elasticsearch backend
+  const apiUrl = useElasticsearch
+    ? 'http://localhost:3003/api/search' // Elasticsearch backend
     : 'http://localhost:3001/api/search'; // Non-Elasticsearch backend
 
   const fetchProducts = useCallback(
@@ -50,12 +58,36 @@ const App = () => {
 
   return (
     <Container>
-      <Box p={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh' }}>
+      <Box
+        p={2}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
         <FormControlLabel
-          control={<Switch checked={useElasticsearch} onChange={handleToggleElasticsearch} />}
-          label={useElasticsearch ? "Using Elasticsearch" : "Using Standard Search"}
+          control={
+            <Switch
+              checked={useElasticsearch}
+              onChange={handleToggleElasticsearch}
+            />
+          }
+          label={
+            useElasticsearch ? 'Using Elasticsearch' : 'Using Standard Search'
+          }
         />
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 600, mb: 4 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            maxWidth: 600,
+            mb: 4,
+          }}
+        >
           <TextField
             label="Search"
             variant="outlined"
