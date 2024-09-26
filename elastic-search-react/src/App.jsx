@@ -130,7 +130,14 @@ const App = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{
+      // display: 'flex',
+      // flexDirection: 'column',
+      alignItems: 'center',
+      minHeight: '100vh',
+      width: '100%',
+      backgroundColor: '#f5f5f5',
+    }}>
       <Box
         p={2}
         sx={{

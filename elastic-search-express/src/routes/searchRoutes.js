@@ -15,7 +15,7 @@ router.get('/search', (req, res) => {
   WHERE LOWER(title) LIKE LOWER(?) 
   OR LOWER(description) LIKE LOWER(?) 
   ORDER BY rating DESC`;
-  
+
   const params = [`%${searchTerm}%`, `%${searchTerm}%`];
 
   db.all(sql, params, (err, rows) => {
